@@ -1,0 +1,29 @@
+name: BookMyShow Watcher
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+
+  workflow_dispatch:
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Dart
+        uses: dart-lang/setup-dart@v1
+
+      - name: Dart Version
+        run: dart --version
+
+      - name: Pub Get
+        run: dart pub get
+
+      - name: Run Watcher
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+        run: dart run aries_watcher.dart
