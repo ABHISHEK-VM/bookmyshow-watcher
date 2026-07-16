@@ -1,29 +1,24 @@
-name: BookMyShow Watcher
+name: Test GitHub Action
 
 on:
   schedule:
-    - cron: "* * * * *"
+    - cron: "*/5 * * * *"
 
   workflow_dispatch:
 
 jobs:
-  watch:
+  test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: Setup Dart
         uses: dart-lang/setup-dart@v1
 
-      - name: Dart Version
+      - name: Verify Dart Installation
         run: dart --version
 
-      - name: Pub Get
-        run: dart pub get
-
-      - name: Run Watcher
-        env:
-          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
-        run: dart run aries_watcher.dart
+      - name: Run Test Script
+        run: dart aries_watcher.dart
